@@ -14,7 +14,7 @@ imshow(masked_img,[]);
 original_masked_img = masked_img;
 figure;
 for i=1:100
-    display(i);
+    disp(i);
     for j=1:15
         masked_img = inpaint(masked_img, mask, 0.001);
     end
@@ -63,16 +63,16 @@ function l = get_l(img)
     l = l(2:end-1, 2:end-1);
 end
 
-function [n_norm_x, n_norm_y] = get_norm_n(img)
+function [dx, dy] = get_norm_n(img)
     x_diff = img(3:end, :) - img(1:end-2, :);
     y_diff = img(:, 3:end) - img(:, 1:end-2);
     x_diff = padarray(x_diff, [1 0]);
     y_diff = padarray(y_diff, [0 1]);
     mag = sqrt(x_diff.^2 + y_diff.^2);
-    n_norm_x = x_diff ./ mag;
-    n_norm_y = -y_diff ./ mag;
-    n_norm_x(mag == 0) = 0;
-    n_norm_y(mag == 0) = 0;
+    dx = -y_diff ./ mag;
+    dy = x_diff ./ mag;
+    dx(mag == 0) = 0;
+    dy(mag == 0) = 0;
         
 end
 
